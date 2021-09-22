@@ -10,24 +10,27 @@ from qiskit.providers.ibmq import least_busy
 # import basic plot tools
 from qiskit.visualization import plot_histogram
 
-n = 30
-task_circuit = QuantumCircuit(n)  #Circuit size for the task. I don't know how to optimize this for now. 
+#n = 30
+#task_circuit = QuantumCircuit(n)  #Circuit size for the task. I don't know how to optimize this for now. 
 
 
 #Initializes circuit: address qubits, fan reader and minus ancilla. 
 def initialize(qc):  
     for q in [0,1]:
         qc.h(q)
-    qc.x(3)
+    qc.x(2)
     qc.x(29)
     qc.h(29)
     return qc
 
 #Load data onto registers in sequence
 def data_load(qc, z): # circuit, List of integers
-    bit_to_qubit = []
+    bit_to_qubit = ""
     for a in z: 
-        bit_to_qubit.append(bin(a)[-4:])
+        t = bin(a)[2:]
+        while len(t) < 4:
+            t = "0"+t
+        bit_to_qubit = bit_to_qubit+t
     for i in range(16):
         if bit_to_qubit[i] == '1':
             qc.x(i+6)   # Offset of 6 shifts to first qubit in register
@@ -35,8 +38,7 @@ def data_load(qc, z): # circuit, List of integers
 
 #Create a superposition of data entangled to the addresses
 def data_super(qc):
-    qc.x(2)
-    qc.cx(0,3)
+    qc.cx(1,3)
     qc.cx(3,2)
     qc.ccx(0,2,4)
     qc.ccx(0,3,5)
