@@ -28,7 +28,7 @@ def data_load(qc, z): # circuit, List of integers
         # insert load instructions here
     for i in range(16):
         if bit_to_qubit[i] == '1':
-            qc.x(i + 6)   # What is the correct offset here?
+            qc.x(i+6)   # What is the correct offset here?
     return qc
 
 
