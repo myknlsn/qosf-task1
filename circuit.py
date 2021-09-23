@@ -49,6 +49,18 @@ def data_super(qc):
             qc.ccx(i + 2, (i*4)+ j + 6, j + 22)
     return qc
 
+def data_super_reverse(qc):
+    for i in range(4):
+        for j in range(4):
+            qc.ccx(5 - i, 21 - (i*4+ j), 22- j)
+    qc.cx(5,3)
+    qc.cx(4,2)
+    qc.ccx(0,3,5)
+    qc.ccx(0,2,4)
+    qc.cx(3,2)
+    qc.cx(1,3)
+    return qc
+
 #Call an oracle that kicks back a phase for good addresses
 def oracle(qc):
     qc.cx(22,23)
